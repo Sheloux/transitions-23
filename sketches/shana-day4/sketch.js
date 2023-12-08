@@ -18,8 +18,8 @@ let soundPlayed2 = false;
 
 
 window.preload = function () {
-  soundEffect = loadSound('../assets/SCRATCH.mp3');
-  soundEffect2 = loadSound('../assets/WOOSH.mp3');
+  soundEffect = loadSound('assets/SCRATCH.mp3');
+  soundEffect2 = loadSound('assets/WOOSH.mp3');
 
 }
 

@@ -10,8 +10,8 @@ let soundEffect2;
 let soundPlayed = false;
 
 window.preload = function () {
-    soundEffect1 = loadSound('../assets/UP.mp3');
-    soundEffect2 = loadSound('../assets/BOUB.mp3');
+    soundEffect1 = loadSound('assets/UP.mp3');
+    soundEffect2 = loadSound('assets/BOUB.mp3');
 
     console.log(soundEffect1);
 

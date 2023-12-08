@@ -12,8 +12,8 @@ let soundEffect2;
 let soundPlayed1 = false;
 let soundPlayed2 = false;
 window.preload = function () {
-    soundEffect1 = loadSound('../assets/ROLLING.mp3');
-    soundEffect2 = loadSound('../assets/PULL.mp3');
+    soundEffect1 = loadSound('assets/ROLLING.mp3');
+    soundEffect2 = loadSound('assets/PULL.mp3');
 }
 
 window.setup = function () {
