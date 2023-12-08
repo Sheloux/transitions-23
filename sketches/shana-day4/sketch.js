@@ -55,7 +55,7 @@ window.setup = function () {
   //layer2.clear();
   //angleMode(DEGREES)
 
-  console.log(objSize);
+  //console.log(objSize);
 
   let spacing = 20; // Adjust the spacing as needed
 
@@ -74,12 +74,16 @@ window.windowResized = function () {
 };
 
 window.mouseDragged = function () {
+  if (!soundPlayed) {
+    soundPlayed = true; // Update the flag to indicate that the sound has been played
+    soundEffect.play(); // Play the sound
+    soundEffect.loop();
+  }
   // Check all the grid points and set active to true if the mouse is over it
   for (let i = 0; i < gridPoints.length; i++) {
     if (dist(mouseX, mouseY, gridPoints[i].x, gridPoints[i].y) < radius / 2) {
       gridPoints[i].active = true;
 
-      soundEffect.play();
     }
   }
 
@@ -91,9 +95,11 @@ window.mouseDragged = function () {
 
   if (isAllGridPointsActive) {
     springSize.target = objSize;
+    soundEffect.stop();
 
     // Update the spring
   }
+
 }
 
 window.draw = function () {
@@ -103,11 +109,6 @@ window.draw = function () {
   springSize.step(deltaTime / 1000);
 
 
-
-  if (!soundPlayed) {
-    soundEffect.play(); // Play the sound
-    soundPlayed = true; // Update the flag to indicate that the sound has been played
-  }
   // SECOND LAYER (UNDERNEATH)
 
   layer2.push();
@@ -149,10 +150,10 @@ window.draw = function () {
 
   if (springSize.position == objSize) {
     // colorChange = lerp(colorChange, 0, springSize.position);
-
     sendSequenceNextSignal(); // finish sketch
     noLoop();
   }
+
 }
 
 function isPointInsideLargeCircle(x, y) {
