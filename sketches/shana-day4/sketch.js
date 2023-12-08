@@ -11,17 +11,21 @@ let objSize = 0;
 let gridPoints = [];
 let isAllGridPointsActive = false;
 let soundEffect;
+let soundEffect2;
 let soundPlayed = false;
+let soundPlayed2 = false;
+
 
 
 window.preload = function () {
   soundEffect = loadSound('../assets/SCRATCH.mp3');
+  soundEffect2 = loadSound('../assets/WOOSH.mp3');
 
 }
 
 const springSize = new SpringNumber({
   position: 30, // start position
-  frequency: 4.5, // oscillations per second (approximate)
+  frequency: 3, // oscillations per second (approximate)
   halfLife: 0.15, // time until amplitude is halved
 });
 
@@ -96,7 +100,6 @@ window.mouseDragged = function () {
   if (isAllGridPointsActive) {
     springSize.target = objSize;
     soundEffect.stop();
-
     // Update the spring
   }
 
@@ -135,6 +138,10 @@ window.draw = function () {
 
   if (isAllGridPointsActive) {
     layer1.clear();
+    if (soundPlayed2 == false) {
+      soundEffect2.play();
+      soundPlayed2 = true;
+    }
   }
 
   layer1.noErase();

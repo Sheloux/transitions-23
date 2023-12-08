@@ -9,7 +9,8 @@ let angleWhenClicked = 0;
 let growing = 0;
 let soundEffect1;
 let soundEffect2;
-let soundPlayed = false;
+let soundPlayed1 = false;
+let soundPlayed2 = false;
 window.preload = function () {
     soundEffect1 = loadSound('../assets/ROLLING.mp3');
     soundEffect2 = loadSound('../assets/PULL.mp3');
@@ -30,14 +31,13 @@ window.windowResized = function () {
 
 window.mouseClicked = function () {
     started = true;
-    // shapeId++
-    // shapeId %= 4
+
+
 }
 window.mousePressed = function () {
     angleWhenClicked = angle;
     speed = 0;
-    // shapeId++
-    // shapeId %= 4
+
 }
 window.draw = function () {
 
@@ -55,10 +55,6 @@ window.draw = function () {
 
     translate(width / 2, height / 2);
 
-    if (soundEffect1.isPlaying() || soundEffect2.isPlaying()) {
-        soundPlayed = false;
-    }
-
     switch (started) {
 
         case true:
@@ -66,24 +62,31 @@ window.draw = function () {
 
             if (mouseIsPressed) {
                 force = -1000;
-                soundEffect2.play();
-                soundPlayed = false;
+                if (soundPlayed1 == false) {
+                    soundEffect1, stop();
+                    soundEffect2.play();
+                    soundEffect2.loop();
+                    soundPlayed1 = true;
+                    soundPlayed2 = false;
 
+                }
 
             } else {
-
                 force = max(-(angle - angleWhenClicked) * 10, 0);
+                soundEffect2.stop();
+                if (soundPlayed2 == false) {
+                    soundEffect1.play();
+                    soundPlayed2 = true;
+                    soundPlayed1 = false;
+                }
             }
 
             speed += force * deltaTime / 1000;
             speed = max(speed, -200);
             angle += speed * deltaTime / 1000;
 
-
             break;
         case false:
-
-
 
             break;
     }
@@ -112,7 +115,9 @@ window.draw = function () {
         circle(0, 0, constrain(growing, 0, objSize + 10));
         // console.log(growing);
     }
-    if (growing > objSize) {
+    if (growing > objSize + 5) {
+        soundEffect2.stop();
+        soundEffect1.stop();
         sendSequenceNextSignal(); // finish sketch
         noLoop();
 
