@@ -17,6 +17,12 @@ export async function runSequence(urls) {
 
     const sketches = []
     let currentSketchId = -1
+    const debug = document.querySelector(".debug")
+    let params = new URLSearchParams(document.location.search);
+    if (params.has("debug")) {
+        debug.style.display = "block"
+    }
+    console.log(params)
 
     const main = document.querySelector("main")
     main.style.visibility = "hidden"
@@ -46,6 +52,7 @@ export async function runSequence(urls) {
         const newSketch = sketches[currentSketchId]
         if (newSketch) {
             newSketch.iframe.style = "z-index:99;"
+            debug.innerHTML = new URL(newSketch.iframe.src).pathname
         }
     }
 

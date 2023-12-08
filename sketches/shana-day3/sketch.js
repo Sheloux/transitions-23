@@ -1,4 +1,5 @@
-
+import { sendSequenceNextSignal } from "../../shared/sequenceRunner.js"
+let finished = false
 let shapeId = 3
 let x = 0;
 let speed = 0;
@@ -6,6 +7,13 @@ let started = false;
 let angle = 0;
 let angleWhenClicked = 0;
 let growing = 0;
+let soundEffect1;
+let soundEffect2;
+let soundPlayed = false;
+window.preload = function () {
+    soundEffect1 = loadSound('../assets/ROLLING.mp3');
+    soundEffect2 = loadSound('../assets/PULL.mp3');
+}
 
 window.setup = function () {
 
@@ -47,28 +55,34 @@ window.draw = function () {
 
     translate(width / 2, height / 2);
 
+    if (soundEffect1.isPlaying() || soundEffect2.isPlaying()) {
+        soundPlayed = false;
+    }
+
     switch (started) {
 
         case true:
             let force = 0;
+
             if (mouseIsPressed) {
                 force = -1000;
+                soundEffect2.play();
+                soundPlayed = false;
+
+
             } else {
 
                 force = max(-(angle - angleWhenClicked) * 10, 0);
             }
 
             speed += force * deltaTime / 1000;
-            speed = max(speed,-200);
+            speed = max(speed, -200);
             angle += speed * deltaTime / 1000;
 
 
             break;
         case false:
-            function wiggle(){
-                angle = random(-3, 2);
-            }
-            setTimeout(wiggle,5000);
+
 
 
             break;
@@ -79,10 +93,10 @@ window.draw = function () {
     strokeWeight(strokeW)
     stroke(0)
     rotate(angle);
-    let maxAngle = asin(strokeW/(objSize/2));
-    let distanceLines = min(speed * 0.01,maxAngle);
+    let maxAngle = asin(strokeW / (objSize / 2));
+    let distanceLines = min(speed * 0.01, maxAngle);
     let lineCount = 18
-    let totalAngleLines = distanceLines*lineCount;
+    let totalAngleLines = distanceLines * lineCount;
     for (let i = 0; i <= lineCount; i++) {
 
         line(0 - objSize / 2, 0, 0 + objSize / 2, 0)
@@ -91,15 +105,16 @@ window.draw = function () {
     }
     //console.log(totalAngleLines);
 
-    if (totalAngleLines > 93) {
+    if (totalAngleLines >= 75) {
         fill(0)
         noStroke()
-        growing ++
-        circle(0, 0, constrain(growing,0,objSize+20));
-        console.log(growing);
+        growing += 0.7;
+        circle(0, 0, constrain(growing, 0, objSize + 10));
+        // console.log(growing);
     }
-    if (growing === objSize+20)
-    {
+    if (growing > objSize) {
+        sendSequenceNextSignal(); // finish sketch
         noLoop();
+
     }
 }

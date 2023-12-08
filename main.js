@@ -1,14 +1,17 @@
 import { runSequence } from "./shared/sequenceRunner.js";
 
 const emptySequence = [
-    "sketches/example-sequence-empty",
-    "sketches/example-sequence-empty",
+    "sketches/v3",
+    "sketches/V4",
+    "sketches/V5",
+    "sketches/V7",
 ]
 
 const exampleSequence = [
-    "sketches/example-sequence-1",
-    "sketches/example-sequence-2",
-    "sketches/example-sequence-3"
+    "sketches/shana-day1",
+    "sketches/shana-day2",
+    "sketches/shana-day3",
+    "sketches/shana-day4"
 ]
 
 runSequence(exampleSequence)
